@@ -1,5 +1,5 @@
 import { DrawingService } from './../services/DrawingService';
-import { space } from './../fixtures/city';
+import { ProjectionService } from '../services/ProjectionService';
 
 const canvas: HTMLCanvasElement | null = document.querySelector('canvas');
 
@@ -7,9 +7,9 @@ if (canvas === null) {
   throw new Error('No canvas element found');
 }
 
-const drawingService = new DrawingService(canvas);
+const projectionService = new ProjectionService();
+const drawingService = new DrawingService(canvas, projectionService);
 
 export {
   drawingService,
-  space,
 };

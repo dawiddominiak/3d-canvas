@@ -8,14 +8,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "npx tsc -w"
+    "build": "npx browserify ./src/index.ts -p [ tsify --noImplicitAny ] > ./dist/index.js",
+    "watch": "watch 'yarn run build' ./src"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.106",
+    "browserify": "^16.1.1",
     "tslint": "^5.9.1",
     "typescript": "^2.7.2"
   },
   "dependencies": {
-    "requirejs": "^2.3.5",
+    "lodash": "^4.17.5",
+    "matrixmath": "^2.2.2",
+    "tsify": "^3.0.4",
     "tslint-config-airbnb": "^5.8.0"
   }
 }
