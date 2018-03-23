@@ -1,4 +1,5 @@
 import { DrawingService } from './../services/DrawingService';
+import { space } from './../fixtures/city';
 
 const canvas: HTMLCanvasElement | null = document.querySelector('canvas');
 
@@ -10,4 +11,5 @@ const drawingService = new DrawingService(canvas);
 
 export {
   drawingService,
+  space,
 };
