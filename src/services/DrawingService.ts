@@ -3,12 +3,18 @@ import { Camera } from '../model/Camera';
 import { ProjectionService } from './ProjectionService';
 
 export class DrawingService {
+  private centerWidth: number;
+  private centerHeight: number;
+
   constructor(
     private canvas: HTMLCanvasElement,
     private projectionService: ProjectionService,
   ) {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
+
+    this.centerWidth = this.canvas.width / 2;
+    this.centerHeight = this.canvas.height / 2;
   }
 
   draw(space: Space, camera: Camera) {
@@ -22,8 +28,8 @@ export class DrawingService {
 
     lines.forEach((line) => {
       context.beginPath();
-      context.moveTo(line.start.x, line.start.y);
-      context.lineTo(line.end.x, line.end.y);
+      context.moveTo(this.centerWidth + line.start.x, this.centerHeight + line.start.y);
+      context.lineTo(this.centerWidth + line.end.x, this.centerHeight + line.end.y);
       context.stroke();
       context.closePath();
     });

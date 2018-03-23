@@ -13,8 +13,8 @@ export class ProjectionService {
       .getLineSegments();
     const flatLineSegments = lineSegments
       .map(lineSegment => new _2DLineSegment(
-        new _2DPoint(lineSegment.start.x, lineSegment.start.z),
-        new _2DPoint(lineSegment.end.x, lineSegment.end.z),
+        new _2DPoint(lineSegment.start.x, lineSegment.start.y),
+        new _2DPoint(lineSegment.end.x, lineSegment.end.y),
       ));
 
     return flatLineSegments;
@@ -24,10 +24,10 @@ export class ProjectionService {
     const transformationBuilder = new TransformationBuilder<Space>(space);
     transformationBuilder
       .transform(mathjs.matrix([
-        [1, 0, 0, 0],
-        [0, 1, 0, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
+        [200, 0, 0, 0],
+        [0, 200, 0, 0],
+        [0, 0, 200, 0],
+        [0, 0, 2, 0],
       ]));
 
     return transformationBuilder.value();

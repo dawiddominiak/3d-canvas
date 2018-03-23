@@ -3,4 +3,4 @@ import { space as city } from './fixtures/city';
 import { Camera } from './model/Camera';
 import { Point } from './model/Point';
 
-drawingService.draw(city, new Camera(new Point(0, 0, 0)));
+drawingService.draw(city, new Camera(new Point(0, 0, 100)));

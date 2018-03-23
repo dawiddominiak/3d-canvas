@@ -10,8 +10,8 @@ export class CityBuilder {
   ) { }
 
   build() {
-    const distance = Math.max(this.sizes.width, this.sizes.depth) * 2;
-    const initPoint = new Point(0, 0, 0);
+    const distance = Math.max(this.sizes.width, this.sizes.depth) * 2.5;
+    const initPoint = new Point(-150, -150, 100);
     const buildings = [];
 
     for (let i = 0; i < this.numberOfBuildingsInRow; i += 1) {

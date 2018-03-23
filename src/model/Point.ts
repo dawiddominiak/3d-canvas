@@ -27,6 +27,9 @@ export class Point implements Cloneable<Point> {
   public moveTo(x: number, y: number, z: number) {
     this._x = x;
     this._y = y;
+    if (typeof z !== 'number') {
+      throw new Error('not a number');
+    }
     this._z = z;
   }
 

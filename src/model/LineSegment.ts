@@ -12,6 +12,10 @@ export class LineSegment implements Transformable, Cloneable<LineSegment> {
     ];
   }
 
+  public getLineSegments() {
+    return [this];
+  }
+
   public clone() {
     return new LineSegment(
       this.start.clone(),
