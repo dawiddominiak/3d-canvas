@@ -20,8 +20,6 @@ export class DrawingService {
 
     const lines = this.projectionService.project(space, camera);
 
-    console.log(lines);
-
     lines.forEach((line) => {
       context.beginPath();
       context.moveTo(line.start.x, line.start.y);

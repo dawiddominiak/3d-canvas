@@ -1,7 +1,9 @@
 import { LineSegment } from './LineSegment';
 import * as _ from 'lodash';
+import { Transformable } from './Transformable';
+import { Cloneable } from './Cloneable';
 
-export class Shape {
+export class Shape implements Transformable, Cloneable<Shape> {
   constructor(public readonly lineSegments: LineSegment[]) { }
 
   public getLineSegments() {
@@ -14,6 +16,13 @@ export class Shape {
         this.lineSegments
         .map(lineSegment => lineSegment.getPoints()),
       ),
+    );
+  }
+
+  public clone() {
+    return new Shape(
+      this.lineSegments
+        .map(lineSegment => lineSegment.clone()),
     );
   }
 }
