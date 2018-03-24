@@ -26,6 +26,8 @@ export class DrawingService {
 
     const lines = this.projectionService.project(space, camera);
 
+    context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
     lines.forEach((line) => {
       context.beginPath();
       context.moveTo(this.centerWidth + line.start.x, this.centerHeight + line.start.y);

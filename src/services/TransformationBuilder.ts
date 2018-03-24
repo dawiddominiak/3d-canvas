@@ -11,14 +11,18 @@ export class TransformationBuilder<T> {
     this.toTransform = toTransform;
   }
 
-  public transform(transformationMatrix: mathjs.Matrix) {
+  public transform(transformationMatrix: mathjs.Matrix, normalize = true) {
     const allPoints = this.toTransform.getPoints();
     allPoints.forEach((point) => {
       const pointAsMatrix = mathjs.multiply(transformationMatrix, point.asMatrix());
       const valuesBeforeNormalization = _.flattenDeep(
         pointAsMatrix.valueOf() as ArrayLike<number>,
       ) as number[];
-      const [x, y, z, w] = this.normalize(valuesBeforeNormalization);
+      let [x, y, z, w] = valuesBeforeNormalization;
+
+      if (normalize) {
+        [x, y, z, w] = this.normalize(valuesBeforeNormalization);
+      }
       point.moveTo(x, y, z);
     });
   }

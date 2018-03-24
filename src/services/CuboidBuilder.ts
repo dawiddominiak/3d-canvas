@@ -13,18 +13,18 @@ export class CuboidBuilder {
     const basePoints = [
       point,
       new Point(point.x + this.sizes.width, point.y, point.z),
-      new Point(point.x, point.y + this.sizes.depth, point.z),
-      new Point(point.x + this.sizes.width, point.y + this.sizes.depth, point.z),
+      new Point(point.x, point.y, point.z + this.sizes.depth),
+      new Point(point.x + this.sizes.width, point.y, point.z + this.sizes.depth),
     ];
 
     const topPoints = [
-      new Point(point.x, point.y, point.z + this.sizes.height),
-      new Point(point.x + this.sizes.width, point.y, point.z + this.sizes.height),
-      new Point(point.x, point.y + this.sizes.depth, point.z + this.sizes.height),
+      new Point(point.x, point.y + this.sizes.height, point.z),
+      new Point(point.x + this.sizes.width, point.y + this.sizes.height, point.z),
+      new Point(point.x, point.y + this.sizes.height, point.z + this.sizes.depth),
       new Point(
         point.x + this.sizes.width,
-        point.y + this.sizes.depth,
-        point.z + this.sizes.height,
+        point.y + this.sizes.height,
+        point.z + this.sizes.depth,
       ),
     ];
 

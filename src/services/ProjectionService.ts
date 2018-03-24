@@ -23,6 +23,17 @@ export class ProjectionService {
   transform(space: Space, camera: Camera) {
     const transformationBuilder = new TransformationBuilder<Space>(space);
     transformationBuilder
+      .transform(
+        mathjs.matrix([
+          [1, 0, 0, camera.x],
+          [0, 1, 0, camera.y],
+          [0, 0, 1, camera.z],
+          [0, 0, 0, 1],
+        ]),
+        false,
+      );
+
+    transformationBuilder
       .transform(mathjs.matrix([
         [200, 0, 0, 0],
         [0, 200, 0, 0],
