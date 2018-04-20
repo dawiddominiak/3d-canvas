@@ -1,7 +1,8 @@
 import { Point } from './Point';
+import { Rotation } from './Rotation';
 
 export class Camera {
-  constructor(private point: Point) { }
+  constructor(private point: Point, private rotation: Rotation, private _zoom: number) { }
 
   get x() {
     return this.point.x;
@@ -13,6 +14,22 @@ export class Camera {
 
   get z() {
     return this.point.z;
+  }
+
+  get ox() {
+    return this.rotation.ox;
+  }
+
+  get oy() {
+    return this.rotation.oy;
+  }
+
+  get oz() {
+    return this.rotation.oz;
+  }
+
+  get zoom() {
+    return this._zoom;
   }
 
   public moveLeft() {
@@ -37,5 +54,37 @@ export class Camera {
 
   public moveBack() {
     this.point.moveTo(this.x, this.y, this.z + 1);
+  }
+
+  public rotateOXForward() {
+    this.rotation.rotateOX(+1);
+  }
+
+  public rotateOXBackward() {
+    this.rotation.rotateOX(-1);
+  }
+
+  public rotateOYForward() {
+    this.rotation.rotateOY(+1);
+  }
+
+  public rotateOYBackward() {
+    this.rotation.rotateOY(-1);
+  }
+
+  public rotateOZForward() {
+    this.rotation.rotateOZ(+1);
+  }
+
+  public rotateOZBackward() {
+    this.rotation.rotateOZ(-1);
+  }
+
+  public zoomIn() {
+    this._zoom += 0.01;
+  }
+
+  public zoomOut() {
+    this._zoom -= 0.01;
   }
 }

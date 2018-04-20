@@ -6,6 +6,7 @@ import { Camera } from './model/Camera';
 import { Point } from './model/Point';
 import { CityBuilder } from './services/CityBuilder';
 import { Sizes } from './model/Sizes';
+import { Rotation } from './model/Rotation';
 
 const canvas: HTMLCanvasElement | null = document.querySelector('canvas');
 
@@ -17,7 +18,7 @@ const projectionService = new ProjectionService();
 const drawingService = new DrawingService(canvas, projectionService);
 const cityBuilder = new CityBuilder(new Sizes(50, 100, 100));
 const keyboardController = new KeyboardController(
-  new Camera(new Point(0, 0, 0)),
+  new Camera(new Point(0, 0, 0), new Rotation(0, 0, 0), 1),
   cityBuilder,
   drawingService,
 );

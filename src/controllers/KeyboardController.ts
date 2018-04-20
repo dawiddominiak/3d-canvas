@@ -16,59 +16,32 @@ export class KeyboardController {
   }
 
   private keyDownHandler(event: KeyboardEvent) {
-    const direction = this.getDirection(event);
-
-    if (direction === 'left') {
-      this.camera.moveLeft();
-    }
-
-    if (direction === 'right') {
-      this.camera.moveRight();
-    }
-
-    if (direction === 'up') {
-      this.camera.moveTop();
-    }
-
-    if (direction === 'down') {
-      this.camera.moveBottom();
-    }
-
-    if (direction === 'forward') {
-      this.camera.moveForward();
-    }
-
-    if (direction === 'back') {
-      this.camera.moveBack();
-    }
-
+    this.doMovement(event);
     this.drawingService.draw(this.cityBuilder.build(), this.camera);
   }
 
-  private getDirection(event: KeyboardEvent) {
+  private doMovement(event: KeyboardEvent) {
     const keyCode = event.keyCode;
-    let direction = null;
 
-    switch (event.keyCode) {
-      case 37:
-        direction = 'left';
-        break;
-      case 38:
-        direction = 'up';
-        break;
-      case 39:
-        direction = 'right';
-        break;
-      case 40:
-        direction = 'down';
-        break;
-      case 87:
-        direction = 'forward';
-        break;
-      case 83:
-        direction = 'back';
+    const directionsMap: {[key:string]:Function} = {
+      37: this.camera.moveLeft,
+      38: this.camera.moveTop,
+      39: this.camera.moveRight,
+      40: this.camera.moveBottom,
+      87: this.camera.moveForward,
+      83: this.camera.moveBack,
+      70: this.camera.rotateOYBackward,
+      72: this.camera.rotateOYForward,
+      84: this.camera.rotateOXForward,
+      71: this.camera.rotateOXBackward,
+      82: this.camera.rotateOZBackward,
+      89: this.camera.rotateOZForward,
+      189: this.camera.zoomOut,
+      187: this.camera.zoomIn,
+    };
+
+    if (directionsMap[keyCode]) {
+      directionsMap[keyCode].call(this.camera);
     }
-
-    return direction;
   }
 }
