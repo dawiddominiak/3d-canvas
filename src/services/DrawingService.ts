@@ -24,14 +24,25 @@ export class DrawingService {
       throw new Error('No 2D context');
     }
 
-    const lines = this.projectionService.project(space, camera);
+    const shapes = this.projectionService.project(space, camera);
 
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    lines.forEach((line) => {
+    shapes.forEach((shape) => {
+      const points = shape.getPointsInDrawingOrder();
+
       context.beginPath();
-      context.moveTo(this.centerWidth + line.start.x, this.centerHeight + line.start.y);
-      context.lineTo(this.centerWidth + line.end.x, this.centerHeight + line.end.y);
+
+      points.forEach((point, i) => {
+        if (i === 0) {
+          context.moveTo(this.centerWidth + point.x, this.centerHeight + point.y);
+        } else {
+          context.lineTo(this.centerWidth + point.x, this.centerHeight + point.y);
+        }
+      });
+      context.lineTo(this.centerWidth + points[0].x, this.centerHeight + points[0].y);
+      // context.fillStyle = 'red';
+      // context.fill();
       context.stroke();
       context.closePath();
     });

@@ -6,19 +6,21 @@ import { _2DPoint } from '../model/_2DPoint';
 import { TransformationBuilder } from './TransformationBuilder';
 import * as mathjs from 'mathjs';
 import { sin, cos } from './../utils/math';
+import { _2DShape } from '../model/_2DShape';
 
 export class ProjectionService {
   project(space: Space, camera: Camera) {
-    const lineSegments = this
+    const shapes = this
       .transform(space, camera)
-      .getLineSegments();
-    const flatLineSegments = lineSegments
-      .map(lineSegment => new _2DLineSegment(
-        new _2DPoint(lineSegment.start.x, lineSegment.start.y),
-        new _2DPoint(lineSegment.end.x, lineSegment.end.y),
+      .getShapes();
+
+    const flatShapes = shapes
+      .map(shape => new _2DShape(
+        shape.getPoints()
+          .map(point => new _2DPoint(point.x, point.y)),
       ));
 
-    return flatLineSegments;
+    return flatShapes;
   }
 
   transform(space: Space, camera: Camera) {

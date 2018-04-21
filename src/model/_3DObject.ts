@@ -6,6 +6,10 @@ import { Cloneable } from './Cloneable';
 export class _3DObject implements Transformable, Cloneable<_3DObject> {
   constructor(public readonly shapes: Shape[]) { }
 
+  public getShapes() {
+    return this.shapes;
+  }
+
   public getLineSegments() {
     return _.uniq(
       _.flatten(

@@ -19,6 +19,7 @@
     "typescript": "^2.7.2"
   },
   "dependencies": {
+    "convex-hull": "^1.0.3",
     "lodash": "^4.17.5",
     "mathjs": "^4.0.1",
     "tsify": "^3.0.4",

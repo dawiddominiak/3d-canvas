@@ -6,6 +6,15 @@ import { Cloneable } from './Cloneable';
 export class Space implements Transformable, Cloneable<Space> {
   constructor(public readonly objects: _3DObject[]) { }
 
+  public getShapes() {
+    return _.uniq(
+      _.flatten(
+        this.objects
+          .map(object => object.getShapes()),
+      ),
+    );
+  }
+
   public getLineSegments() {
     return _.uniq(
       _.flatten(
