@@ -7,6 +7,8 @@ import { TransformationBuilder } from './TransformationBuilder';
 import * as mathjs from 'mathjs';
 import { sin, cos } from './../utils/math';
 import { _2DShape } from '../model/_2DShape';
+import { Shape } from '../model/Shape';
+import * as _ from 'lodash';
 
 export class ProjectionService {
   project(space: Space, camera: Camera) {
@@ -18,9 +20,34 @@ export class ProjectionService {
       .map(shape => new _2DShape(
         shape.getPoints()
           .map(point => new _2DPoint(point.x, point.y)),
+        this.calculateDistance(shape, camera),
       ));
 
     return flatShapes;
+  }
+
+  calculateDistance(shape: Shape, camera: Camera) {
+    const points = shape.getPoints()
+      .map(point => point.getOriginalCoordinates());
+
+    const centerOfMass = points
+      .reduce(
+        (center, point) => [
+          center[0] + point.x,
+          center[1] + point.y,
+          center[2] + point.z,
+        ],
+        [0, 0, 0],
+      )
+      .map(sum => sum / points.length);
+
+    const distance = Math.sqrt(
+      Math.pow(centerOfMass[0] + camera.x, 2)
+      + Math.pow(centerOfMass[1] + camera.y, 2)
+      + Math.pow(centerOfMass[2] + camera.z, 2),
+    );
+
+    return distance;
   }
 
   transform(space: Space, camera: Camera) {

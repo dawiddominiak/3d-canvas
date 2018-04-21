@@ -2,7 +2,7 @@ import convexHull = require('convex-hull');
 import { _2DPoint } from './_2DPoint';
 
 export class _2DShape {
-  constructor(public readonly points: _2DPoint[]) { }
+  constructor(public readonly points: _2DPoint[], public readonly distance: number) { }
 
   public getPointsInDrawingOrder() {
     const path = convexHull(

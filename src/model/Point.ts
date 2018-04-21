@@ -6,10 +6,14 @@ export class Point implements Cloneable<Point> {
   private _y: number;
   private _z: number;
 
+  private originalCoordinates: number[];
+
   constructor(x: number, y: number, z: number) {
     this._x = x;
     this._y = y;
     this._z = z;
+
+    this.originalCoordinates = [x, y, z];
   }
 
   get x() {
@@ -35,6 +39,14 @@ export class Point implements Cloneable<Point> {
 
   public clone() {
     return new Point(this._x, this._y, this._z);
+  }
+
+  public getOriginalCoordinates() {
+    return new Point(
+      this.originalCoordinates[0],
+      this.originalCoordinates[1],
+      this.originalCoordinates[2],
+    );
   }
 
   public asMatrix(w: number = 1) {

@@ -1,6 +1,7 @@
 import { Space } from '../model/Space';
 import { Camera } from '../model/Camera';
 import { ProjectionService } from './ProjectionService';
+import * as _ from 'lodash';
 
 export class DrawingService {
   private centerWidth: number;
@@ -25,10 +26,11 @@ export class DrawingService {
     }
 
     const shapes = this.projectionService.project(space, camera);
+    const sortedShapes = _.orderBy(shapes, ['distance'], ['desc']);
 
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    shapes.forEach((shape) => {
+    sortedShapes.forEach((shape) => {
       const points = shape.getPointsInDrawingOrder();
 
       context.beginPath();
@@ -40,9 +42,13 @@ export class DrawingService {
           context.lineTo(this.centerWidth + point.x, this.centerHeight + point.y);
         }
       });
-      context.lineTo(this.centerWidth + points[0].x, this.centerHeight + points[0].y);
-      // context.fillStyle = 'red';
-      // context.fill();
+
+      if (points[0]) {
+        context.lineTo(this.centerWidth + points[0].x, this.centerHeight + points[0].y);
+      }
+
+      context.fillStyle = 'white';
+      context.fill();
       context.stroke();
       context.closePath();
     });
