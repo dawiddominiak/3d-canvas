@@ -4,7 +4,10 @@ import { Transformable } from './Transformable';
 import { Cloneable } from './Cloneable';
 
 export class Shape implements Transformable, Cloneable<Shape> {
-  constructor(public readonly lineSegments: LineSegment[]) { }
+  constructor(
+    public readonly lineSegments: LineSegment[],
+    public readonly color: string = 'white',
+  ) { }
 
   public getLineSegments() {
     return this.lineSegments;
@@ -23,6 +26,7 @@ export class Shape implements Transformable, Cloneable<Shape> {
     return new Shape(
       this.lineSegments
         .map(lineSegment => lineSegment.clone()),
+      this.color,
     );
   }
 }

@@ -7,6 +7,7 @@ export class CityBuilder {
   constructor(
     private readonly sizes: Sizes,
     private readonly numberOfBuildingsInRow: number = 2,
+    private readonly colors: string[] = [],
   ) { }
 
   build() {
@@ -16,7 +17,7 @@ export class CityBuilder {
 
     for (let i = 0; i < this.numberOfBuildingsInRow; i += 1) {
       for (let j = 0; j < this.numberOfBuildingsInRow; j += 1) {
-        const buildingBuilder = new CuboidBuilder(this.sizes);
+        const buildingBuilder = new CuboidBuilder(this.sizes, this.colors);
         const building = buildingBuilder.buildIn(new Point(
           initPoint.x + (distance * i),
           initPoint.y,

@@ -5,7 +5,7 @@ import { _3DObject } from '../model/_3DObject';
 import { Sizes } from '../model/Sizes';
 
 export class CuboidBuilder {
-  constructor (private readonly sizes: Sizes) { }
+  constructor (private readonly sizes: Sizes, private readonly colors: string[] = []) { }
 
   buildIn(point: Point) {
     const startPoint = point;
@@ -50,32 +50,44 @@ export class CuboidBuilder {
     ];
 
     const shapes = [
-      new Shape(baseEdges),
-      new Shape(topEdges),
-      new Shape([
-        baseEdges[0],
-        topEdges[0],
-        connectors[0],
-        connectors[1],
-      ]),
-      new Shape([
-        baseEdges[1],
-        topEdges[1],
-        connectors[0],
-        connectors[2],
-      ]),
-      new Shape([
-        baseEdges[2],
-        topEdges[2],
-        connectors[1],
-        connectors[3],
-      ]),
-      new Shape([
-        baseEdges[3],
-        topEdges[3],
-        connectors[2],
-        connectors[3],
-      ]),
+      new Shape(baseEdges, '#DDDDDD'),
+      new Shape(topEdges, '#DEDEDE'),
+      new Shape(
+        [
+          baseEdges[0],
+          topEdges[0],
+          connectors[0],
+          connectors[1],
+        ],
+        '#EEEEEE',
+      ),
+      new Shape(
+        [
+          baseEdges[1],
+          topEdges[1],
+          connectors[0],
+          connectors[2],
+        ],
+        '#FEFEFE',
+      ),
+      new Shape(
+        [
+          baseEdges[2],
+          topEdges[2],
+          connectors[1],
+          connectors[3],
+        ],
+        '#DDEFEE',
+      ),
+      new Shape(
+        [
+          baseEdges[3],
+          topEdges[3],
+          connectors[2],
+          connectors[3],
+        ],
+        '#DDFFEE',
+      ),
     ];
 
     return new _3DObject(shapes);

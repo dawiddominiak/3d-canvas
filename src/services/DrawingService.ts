@@ -30,7 +30,7 @@ export class DrawingService {
 
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    sortedShapes.forEach((shape) => {
+    sortedShapes.forEach((shape, j) => {
       const points = shape.getPointsInDrawingOrder();
 
       context.beginPath();
@@ -48,7 +48,7 @@ export class DrawingService {
       }
 
       if (localStorage.getItem('hideEdges') === 'true') {
-        context.fillStyle = 'white';
+        context.fillStyle = shape.color;
         context.fill();
       }
 
@@ -56,4 +56,6 @@ export class DrawingService {
       context.closePath();
     });
   }
+
+
 }

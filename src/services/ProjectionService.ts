@@ -21,6 +21,7 @@ export class ProjectionService {
         shape.getPoints()
           .map(point => new _2DPoint(point.x, point.y)),
         this.calculateDistance(shape, camera),
+        shape.color,
       ));
 
     return flatShapes;
