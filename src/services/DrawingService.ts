@@ -47,8 +47,11 @@ export class DrawingService {
         context.lineTo(this.centerWidth + points[0].x, this.centerHeight + points[0].y);
       }
 
-      context.fillStyle = 'white';
-      context.fill();
+      if (localStorage.getItem('hideEdges') === 'true') {
+        context.fillStyle = 'white';
+        context.fill();
+      }
+
       context.stroke();
       context.closePath();
     });

@@ -12,10 +12,19 @@ export class KeyboardController {
     private drawingService: DrawingService,
   ) {
     this.drawingService.draw(this.cityBuilder.build(), this.camera);
+    localStorage.setItem('hideEdges', 'false');
     document.addEventListener('keydown', (e: KeyboardEvent) => this.keyDownHandler(e), false);
   }
 
   private keyDownHandler(event: KeyboardEvent) {
+    if (event.keyCode === 16) {
+      const hideEdges = localStorage.getItem('hideEdges');
+      if (!hideEdges || hideEdges === 'false') {
+        localStorage.setItem('hideEdges', 'true');
+      } else {
+        localStorage.setItem('hideEdges', 'false');
+      }
+    }
     this.doMovement(event);
     this.drawingService.draw(this.cityBuilder.build(), this.camera);
   }
