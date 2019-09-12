@@ -1,12 +1,12 @@
-import { DrawingService } from './services/DrawingService';
-import { ProjectionService } from './services/ProjectionService';
-import { KeyboardController } from './controllers/KeyboardController';
-import { space as city } from './fixtures/city';
-import { Camera } from './model/Camera';
-import { Point } from './model/Point';
-import { CityBuilder } from './services/CityBuilder';
-import { Sizes } from './model/Sizes';
-import { Rotation } from './model/Rotation';
+import { KeyboardController } from "./controllers/KeyboardController";
+import { space as city } from "./fixtures/city";
+import { Camera } from "./model/Camera";
+import { Point } from "./model/Point";
+import { Rotation } from "./model/Rotation";
+import { Sizes } from "./model/Sizes";
+import { CityBuilder } from "./services/CityBuilder";
+import { DrawingService } from "./services/DrawingService";
+import { ProjectionService } from "./services/ProjectionService";
 
 const canvas: HTMLCanvasElement | null = document.querySelector('canvas');
 

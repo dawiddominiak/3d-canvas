@@ -1,5 +1,6 @@
-import { Point } from './Point';
-import { Rotation } from './Rotation';
+import { cos, sin } from "../utils/math";
+import { Point } from "./Point";
+import { Rotation } from "./Rotation";
 
 export class Camera {
   constructor(private point: Point, private rotation: Rotation, private _zoom: number) { }
@@ -33,51 +34,94 @@ export class Camera {
   }
 
   public moveLeft() {
-    this.point.moveTo(this.x + 1, this.y, this.z);
+    const vector = this.calculateVectorLeft();
+    this.point.moveTo(this.x + vector[0], this.y + vector[1], this.z + vector[2]);
   }
 
   public moveRight() {
-    this.point.moveTo(this.x - 1, this.y, this.z);
+    const vector = this.calculateVectorLeft();
+    this.point.moveTo(this.x - vector[0], this.y - vector[1], this.z - vector[2]);
   }
 
   public moveTop() {
-    this.point.moveTo(this.x, this.y + 1, this.z);
+    const vector = this.calculateVectorTop();
+    this.point.moveTo(this.x + vector[0], this.y + vector[1], this.z + vector[2]);
   }
 
   public moveBottom() {
-    this.point.moveTo(this.x, this.y - 1, this.z);
+    const vector = this.calculateVectorTop();
+    this.point.moveTo(this.x - vector[0], this.y - vector[1], this.z - vector[2]);
   }
 
   public moveForward() {
-    this.point.moveTo(this.x, this.y, this.z - 1);
+    const vector = this.calculateVectorForward();
+    this.point.moveTo(this.x + vector[0], this.y + vector[1], this.z + vector[2]);
   }
 
   public moveBack() {
-    this.point.moveTo(this.x, this.y, this.z + 1);
+    const vector = this.calculateVectorForward();
+    this.point.moveTo(this.x - vector[0], this.y - vector[1], this.z - vector[2]);
   }
 
-  public rotateOXForward() {
-    this.rotation.rotateOX(+1);
+  public calculateVectorLeft() {
+    const vector = [
+      cos(this.rotation.oy) + sin(this.rotation.oz),
+      - sin(this.rotation.ox) - sin(this.rotation.oz),
+      sin(this.rotation.oy) - sin(this.rotation.ox),
+    ];
+
+    console.log('theo 1', [
+      cos(this.rotation.pitch) * sin(this.rotation.yaw),
+      cos(this.rotation.pitch) * cos(this.rotation.yaw),
+      sin(this.rotation.pitch),
+    ]);
+
+    console.log('theo 2', [
+      - sin(this.rotation.roll) * cos(this.rotation.yaw) - cos(this.rotation.roll) * sin(this.rotation.pitch) * sin(this.rotation.yaw),
+      - sin(this.rotation.roll) * sin(this.rotation.yaw) - cos(this.rotation.roll) * sin(this.rotation.pitch) * cos(this.rotation.yaw),
+      cos(this.rotation.roll) * cos(this.rotation.pitch),
+    ]);
+    console.log(vector);
+    return vector;
   }
 
-  public rotateOXBackward() {
-    this.rotation.rotateOX(-1);
+  public calculateVectorTop() {
+    console.log(this.rotation);
+    const vector = [
+      sin(this.rotation.oy) + sin(this.rotation.oz),
+      cos(this.rotation.ox) + sin(this.rotation.oz),
+      sin(this.rotation.oy) - sin(this.rotation.ox),
+    ];
+    console.log(vector);
+    return vector;
   }
 
-  public rotateOYForward() {
-    this.rotation.rotateOY(+1);
+  public calculateVectorForward() {
+    return [0, 0, -1];
   }
 
-  public rotateOYBackward() {
-    this.rotation.rotateOY(-1);
+  public pitchDown() {
+    this.rotation.rotateOX(+90);
   }
 
-  public rotateOZForward() {
-    this.rotation.rotateOZ(+1);
+  public pitchUp() {
+    this.rotation.rotateOX(-90);
   }
 
-  public rotateOZBackward() {
-    this.rotation.rotateOZ(-1);
+  public yawLeft() {
+    this.rotation.rotateOY(+90);
+  }
+
+  public yawRight() {
+    this.rotation.rotateOY(-90);
+  }
+
+  public rollLeft() {
+    this.rotation.rotateOZ(+90);
+  }
+
+  public rollRight() {
+    this.rotation.rotateOZ(-90);
   }
 
   public zoomIn() {

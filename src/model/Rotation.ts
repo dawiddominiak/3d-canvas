@@ -1,4 +1,5 @@
 export class Rotation {
+  // Camera itself rotation value
   private _ox: number;
   private _oy: number;
   private _oz: number;
@@ -7,6 +8,18 @@ export class Rotation {
     this._ox = ox;
     this._oy = oy;
     this._oz = oz;
+  }
+
+  get pitch() {
+    return this._ox;
+  }
+
+  get yaw() {
+    return this._oy;
+  }
+
+  get roll() {
+    return this._oz;
   }
 
   get ox() {

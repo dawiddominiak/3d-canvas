@@ -1,7 +1,7 @@
-import { Camera } from '../model/Camera';
-import { Space } from '../model/Space';
-import { DrawingService } from '../services/DrawingService';
-import { CityBuilder } from '../services/CityBuilder';
+import { Camera } from "../model/Camera";
+import { Space } from "../model/Space";
+import { CityBuilder } from "../services/CityBuilder";
+import { DrawingService } from "../services/DrawingService";
 
 const KEYBOARD_MAPPING = { 37: 'left', 38: 'up', 39: 'right', 40: 'down' };
 
@@ -39,12 +39,12 @@ export class KeyboardController {
       40: this.camera.moveBottom,
       87: this.camera.moveForward,
       83: this.camera.moveBack,
-      70: this.camera.rotateOYBackward,
-      72: this.camera.rotateOYForward,
-      84: this.camera.rotateOXForward,
-      71: this.camera.rotateOXBackward,
-      82: this.camera.rotateOZBackward,
-      89: this.camera.rotateOZForward,
+      70: this.camera.yawRight,
+      72: this.camera.yawLeft,
+      84: this.camera.pitchDown,
+      71: this.camera.pitchUp,
+      82: this.camera.rollLeft,
+      89: this.camera.rollRight,
       189: this.camera.zoomOut,
       187: this.camera.zoomIn,
     };
