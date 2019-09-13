@@ -1,16 +1,28 @@
-import { Camera } from './../model/Camera';
-import { Space } from '../model/Space';
-import { LineSegment } from '../model/LineSegment';
-import { _2DLineSegment } from '../model/_2DLineSegment';
-import { _2DPoint } from '../model/_2DPoint';
-import { TransformationBuilder } from './TransformationBuilder';
-import * as mathjs from 'mathjs';
-import { sin, cos } from './../utils/math';
-import { _2DShape } from '../model/_2DShape';
-import { Shape } from '../model/Shape';
-import * as _ from 'lodash';
+import * as _ from "lodash";
+import * as mathjs from "mathjs";
+
+import { _2DLineSegment } from "../model/_2DLineSegment";
+import { _2DPoint } from "../model/_2DPoint";
+import { _2DShape } from "../model/_2DShape";
+import { Camera } from "../model/Camera";
+import { LineSegment } from "../model/LineSegment";
+import { Shape } from "../model/Shape";
+import { Space } from "../model/Space";
+import { cos, sin } from "../utils/math";
+import { TransformationBuilder } from "./TransformationBuilder";
 
 export class ProjectionService {
+  private transformationMatrix: mathjs.Matrix;
+
+  constructor() {
+    this.transformationMatrix = mathjs.matrix([
+      [1, 0, 0, 0],
+      [0, 1, 0, 0],
+      [0, 0, 1, 0],
+      [0, 0, 0, 1],
+    ]);
+  }
+
   project(space: Space, camera: Camera) {
     const shapes = this
       .transform(space, camera)
@@ -110,6 +122,12 @@ export class ProjectionService {
         [0, 0, 0.007, 0],
       ]));
 
+    this.transformationMatrix = transformationBuilder.getFinalMatrix();
+
     return transformationBuilder.value();
+  }
+
+  public getTransformationMatrix() {
+    return this.transformationMatrix;
   }
 }

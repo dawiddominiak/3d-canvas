@@ -1,6 +1,6 @@
-import { Point } from './Point';
-import { Transformable } from './Transformable';
-import { Cloneable } from './Cloneable';
+import { Cloneable } from "./Cloneable";
+import { Point } from "./Point";
+import { Transformable } from "./Transformable";
 
 export class LineSegment implements Transformable, Cloneable<LineSegment> {
   constructor(public readonly start: Point, public readonly end: Point) { }

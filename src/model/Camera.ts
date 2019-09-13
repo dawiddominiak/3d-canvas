@@ -1,9 +1,21 @@
+import * as _ from "lodash";
+import * as mathjs from "mathjs";
+
 import { cos, sin } from "../utils/math";
 import { Point } from "./Point";
 import { Rotation } from "./Rotation";
 
 export class Camera {
-  constructor(private point: Point, private rotation: Rotation, private _zoom: number) { }
+  private transfromationMatrix: mathjs.Matrix;
+
+  constructor(private point: Point, private rotation: Rotation, private _zoom: number) {
+    this.transfromationMatrix = mathjs.matrix([
+      [1, 0, 0, 0],
+      [0, 1, 0, 0],
+      [0, 0, 1, 0],
+      [0, 0, 0, 1],
+    ]);
+  }
 
   get x() {
     return this.point.x;
@@ -31,6 +43,10 @@ export class Camera {
 
   get zoom() {
     return this._zoom;
+  }
+
+  public updateTransformationMetrics(transfromationMatrix: mathjs.Matrix) {
+    this.transfromationMatrix = transfromationMatrix;
   }
 
   public moveLeft() {
@@ -66,62 +82,68 @@ export class Camera {
   public calculateVectorLeft() {
     const vector = [
       cos(this.rotation.oy) + sin(this.rotation.oz),
-      - sin(this.rotation.ox) - sin(this.rotation.oz),
-      sin(this.rotation.oy) - sin(this.rotation.ox),
+      /*- sin(this.rotation.ox)*/ - sin(this.rotation.oz),
+      sin(this.rotation.oy)// - sin(this.rotation.ox),
     ];
 
-    console.log('theo 1', [
-      cos(this.rotation.pitch) * sin(this.rotation.yaw),
-      cos(this.rotation.pitch) * cos(this.rotation.yaw),
-      sin(this.rotation.pitch),
-    ]);
+    const matrixStart = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [0], [1]]));
+    const matrixEnd = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[1], [0], [0], [1]]));
 
-    console.log('theo 2', [
-      - sin(this.rotation.roll) * cos(this.rotation.yaw) - cos(this.rotation.roll) * sin(this.rotation.pitch) * sin(this.rotation.yaw),
-      - sin(this.rotation.roll) * sin(this.rotation.yaw) - cos(this.rotation.roll) * sin(this.rotation.pitch) * cos(this.rotation.yaw),
-      cos(this.rotation.roll) * cos(this.rotation.pitch),
-    ]);
-    console.log(vector);
-    return vector;
+    const newVectorStart = _.flattenDeep(matrixStart.valueOf() as ArrayLike<number>) as number[];
+    const newVectorEnd = _.flattenDeep(matrixEnd.valueOf() as ArrayLike<number>) as number[];
+
+    return [newVectorEnd[0], newVectorEnd[1], -newVectorEnd[2]].map(e => e * 10);
   }
 
   public calculateVectorTop() {
-    console.log(this.rotation);
     const vector = [
       sin(this.rotation.oy) + sin(this.rotation.oz),
       cos(this.rotation.ox) + sin(this.rotation.oz),
       sin(this.rotation.oy) - sin(this.rotation.ox),
     ];
-    console.log(vector);
-    return vector;
+
+    const matrixStart = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [0], [1]]));
+    const matrixEnd = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [1], [0], [1]]));
+
+    const newVectorStart = _.flattenDeep(matrixStart.valueOf() as ArrayLike<number>) as number[];
+    const newVectorEnd = _.flattenDeep(matrixEnd.valueOf() as ArrayLike<number>) as number[];
+
+    return [newVectorEnd[0], newVectorEnd[1], -newVectorEnd[2]].slice(0, 3).map(e => e * 10);
   }
 
   public calculateVectorForward() {
-    return [0, 0, -1];
+    // moze mozna to jakos zalatac
+    const matrixStart = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [0], [1]]));
+    const matrixEnd = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [-1], [1]]));
+
+    const newVectorStart = _.flattenDeep(matrixStart.valueOf() as ArrayLike<number>) as number[];
+    const newVectorEnd = _.flattenDeep(matrixEnd.valueOf() as ArrayLike<number>) as number[];
+
+    return [newVectorEnd[0], newVectorEnd[1], -newVectorEnd[2]].slice(0, 3).map(e => e * 10);
   }
 
   public pitchDown() {
-    this.rotation.rotateOX(+90);
+    this.rotation.rotateOX(+3);
   }
 
   public pitchUp() {
-    this.rotation.rotateOX(-90);
+    this.rotation.rotateOX(-3);
   }
 
   public yawLeft() {
-    this.rotation.rotateOY(+90);
+    this.rotation.rotateOY(+3);
   }
 
   public yawRight() {
-    this.rotation.rotateOY(-90);
+    this.rotation.rotateOY(-3);
   }
 
   public rollLeft() {
-    this.rotation.rotateOZ(+90);
+    this.rotation.rotateOZ(+3);
   }
 
   public rollRight() {
-    this.rotation.rotateOZ(-90);
+    this.rotation.rotateOZ(-3);
   }
 
   public zoomIn() {

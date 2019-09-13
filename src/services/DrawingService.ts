@@ -1,7 +1,8 @@
-import { Space } from '../model/Space';
-import { Camera } from '../model/Camera';
-import { ProjectionService } from './ProjectionService';
-import * as _ from 'lodash';
+import * as _ from "lodash";
+
+import { Camera } from "../model/Camera";
+import { Space } from "../model/Space";
+import { ProjectionService } from "./ProjectionService";
 
 export class DrawingService {
   private centerWidth: number;
@@ -16,6 +17,7 @@ export class DrawingService {
 
     this.centerWidth = this.canvas.width / 2;
     this.centerHeight = this.canvas.height / 2;
+
   }
 
   draw(space: Space, camera: Camera) {
@@ -26,6 +28,8 @@ export class DrawingService {
     }
 
     const shapes = this.projectionService.project(space, camera);
+    const transfromationMatrix = this.projectionService.getTransformationMatrix();
+    camera.updateTransformationMetrics(transfromationMatrix);
     const sortedShapes = _.orderBy(shapes, ['distance'], ['desc']);
 
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
