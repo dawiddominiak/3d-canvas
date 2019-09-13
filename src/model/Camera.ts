@@ -5,6 +5,8 @@ import { cos, sin } from "../utils/math";
 import { Point } from "./Point";
 import { Rotation } from "./Rotation";
 
+const WALK_SPEED = 8;
+
 export class Camera {
   private transfromationMatrix: mathjs.Matrix;
 
@@ -80,46 +82,31 @@ export class Camera {
   }
 
   public calculateVectorLeft() {
-    const vector = [
-      cos(this.rotation.oy) + sin(this.rotation.oz),
-      /*- sin(this.rotation.ox)*/ - sin(this.rotation.oz),
-      sin(this.rotation.oy)// - sin(this.rotation.ox),
-    ];
-
-    const matrixStart = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [0], [1]]));
-    const matrixEnd = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[1], [0], [0], [1]]));
-
-    const newVectorStart = _.flattenDeep(matrixStart.valueOf() as ArrayLike<number>) as number[];
-    const newVectorEnd = _.flattenDeep(matrixEnd.valueOf() as ArrayLike<number>) as number[];
-
-    return [newVectorEnd[0], newVectorEnd[1], -newVectorEnd[2]].map(e => e * 10);
+    return this.calculateVector([1, 0, 0, 1]);
   }
 
   public calculateVectorTop() {
-    const vector = [
-      sin(this.rotation.oy) + sin(this.rotation.oz),
-      cos(this.rotation.ox) + sin(this.rotation.oz),
-      sin(this.rotation.oy) - sin(this.rotation.ox),
-    ];
-
-    const matrixStart = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [0], [1]]));
-    const matrixEnd = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [1], [0], [1]]));
-
-    const newVectorStart = _.flattenDeep(matrixStart.valueOf() as ArrayLike<number>) as number[];
-    const newVectorEnd = _.flattenDeep(matrixEnd.valueOf() as ArrayLike<number>) as number[];
-
-    return [newVectorEnd[0], newVectorEnd[1], -newVectorEnd[2]].slice(0, 3).map(e => e * 10);
+    return this.calculateVector([0, 1, 0, 1]);
   }
 
   public calculateVectorForward() {
-    // moze mozna to jakos zalatac
-    const matrixStart = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [0], [1]]));
-    const matrixEnd = mathjs.multiply(this.transfromationMatrix, mathjs.matrix([[0], [0], [-1], [1]]));
+    return this.calculateVector([0, 0, -1, 1]);
+  }
 
-    const newVectorStart = _.flattenDeep(matrixStart.valueOf() as ArrayLike<number>) as number[];
-    const newVectorEnd = _.flattenDeep(matrixEnd.valueOf() as ArrayLike<number>) as number[];
+  private calculateVector(vector: number[]) {
+    const matrix = mathjs.multiply(
+      this.transfromationMatrix,
+      mathjs.matrix(
+        vector.map(element => [element]),
+      ),
+    );
+    const transformedVector = _.flattenDeep(matrix.valueOf() as ArrayLike<number>) as number[];
 
-    return [newVectorEnd[0], newVectorEnd[1], -newVectorEnd[2]].slice(0, 3).map(e => e * 10);
+    return [
+      transformedVector[0],
+      transformedVector[1],
+      - transformedVector[2],
+    ].map(element => element * WALK_SPEED);
   }
 
   public pitchDown() {
