@@ -29,7 +29,7 @@ const projectionService = new ProjectionService();
 const drawingService = new DrawingService(canvas, projectionService);
 const cityBuilder = new CityBuilder(new Sizes(50, 100, 100));
 const keyboardController = new KeyboardController(
-  new Camera(new Point(0, 0, 0), new Rotation(0, 0, 0), 1),
+  new Camera(new Point(0, 0, 1000), new Rotation(0, 0, 0), 1),
   cityBuilder,
   drawingService,
 );

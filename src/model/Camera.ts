@@ -90,7 +90,7 @@ export class Camera {
   }
 
   public calculateVectorForward() {
-    return this.calculateVector([0, 0, -1, 1]);
+    return this.calculateVector([0, 0, 1, 1]);
   }
 
   private calculateVector(vector: number[]) {

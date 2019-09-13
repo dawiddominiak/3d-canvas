@@ -119,7 +119,7 @@ export class ProjectionService {
         [camera.zoom, 0, 0, 0],
         [0, camera.zoom, 0, 0],
         [0, 0, camera.zoom, 0],
-        [0, 0, 0.007, 0],
+        [0, 0, 0.001, 0],
       ]));
 
     this.transformationMatrix = transformationBuilder.getFinalMatrix();
